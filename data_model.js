@@ -1,3 +1,4 @@
+
 var data_model = {
     count: 0,
     db: {},
@@ -24,7 +25,7 @@ var data_model = {
         var error = this.validate(new_value);
         if (!error) {
             if (this.db[entry_id] != undefined) { this.db[entry_id] = new_value; }
-            else { error = "Error: object with the specified ID does not exist." }
+            else { error = "Error: object with the ID #" + entry_id + " does not exist." }
         }
         callback(error, this.db[entry_id]);
     },
@@ -40,23 +41,23 @@ var data_model = {
         }
     },
     validate: function (object) {
-        var error = false;
+        var error = "";
         for (var key in object) {
             if (this.schema[key] == undefined) {
                 //object[key] = undefined;
-                error = "Error: object contains illegal extra parameters."
+                error += "Error: object contains illegal extra parameters.\n"
             } else if (typeof (object[key]) != this.schema[key].type) {
                 if (this.schema[key].required) {
                     object[key] = this.schema[key].fallback;
                 } else {
                     //object[key] = undefined;
-                    error = "Error: entered wrong datatype for (optional) " + key + " property.";
+                    error += "Error: entered wrong datatype for (optional) " + key + " property.\n";
                 }
             }
         }
         for (var key in this.schema) {
             if (this.schema[key].required && object[key] == undefined) {
-                error = "Error: you have not entered a " + key + " property.";
+                error += "Error: you have not entered a " + key + " property.\n";
             }
         }
         return error;

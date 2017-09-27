@@ -39,7 +39,6 @@ var data_model = {
             console.log(object);
         }
     },
-    // args: object, return: an error message or false, behavior: compare object to schema and return success/failure
     validate: function (object) {
         var error = false;
         for (var key in object) {

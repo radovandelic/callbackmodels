@@ -1,43 +1,24 @@
-var data_model_array = {
+var data_model = {
     count: 0,
-    db: [], // array of objects
-    create: function (new_object) {
+    db: {},
+	create: function (new_object, callback) {
         var id = this.count;
         this.count++;
         this.db[id] = new_object;
-        return this.db[id];
-    },
-    read: function (entry_id) {
-        return this.db[entry_id];
-    },
-    update: function (entry_id, new_value) {
+        this.callback(this.db[id]);
+	},
+	read: function (entry_id, callback) {
+        this.callback(this.db[entry_id]);
+	},
+	update: function (entry_id, new_value, callback) {
         this.db[entry_id] = new_value;
-        return this.db[entry_id];
-    },
-    remove: function (entry_id) {
-        this.db.splice(entry_id, 1);
-        return "Object #" + entry_id + " removed.";
-    }
-};
-
-var data_model_object = {
-    count: 0,
-    db: {}, // object of objects
-    create: function (new_object) {
-        var id = this.count;
-        this.count++;
-        this.db[id] = new_object;
-        return this.db[id];
-    },
-    read: function (entry_id) {
-        return this.db[entry_id];
-    },
-    update: function (entry_id, new_value) {
-        this.db[entry_id] = new_value;
-        return this.db[entry_id];
-    },
-    remove: function (entry_id) {
+        this.callback(this.db[entry_id]);
+	},
+	remove: function (entry_id, callback) {
         delete this.db[entry_id];
-        return "Object #" + entry_id + " removed.";
+        this.callback("Object #" + entry_id + " removed.");
+    },
+    callback: function(object){
+        console.log(object);
     }
 };
